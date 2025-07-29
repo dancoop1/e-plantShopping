@@ -4,8 +4,8 @@ import { removeItem, updateQuantity } from './CartSlice';
 import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
-  const cartItems = useSelector(state => state.cart.items);
-  const dispatch = useDispatch();
+    const cartItems = useSelector(state => state.cart.items);
+    const dispatch = useDispatch();
 
     const getTotalItems = () => {
         return cartItems.reduce((total, item) => total + item.quantity, 0);
