@@ -8,16 +8,13 @@ const CartItem = ({ onContinueShopping }) => {
     const dispatch = useDispatch();
 
     const parseCost = (costString) => {
-        return parseFloat(costString.replace('$0',''));
+        return parseFloat(costString.replace('$',''));
     }
 
     const calculateCartTotal = () => {
-        let total = 0;
-        cart.forEach((item) => {
-            const price = parseFloat(item.cost.substring());
-            total += price * item.quantity;
-        })    
-        return total.toFixed(2);
+        return cartItems.reduce((total, item) => {
+            return total + (parseCost(item.cost) * item.quantity);
+        }, 0).toFixed(2);
     };
 
     const calculateItemSubtotal = (item) => {
