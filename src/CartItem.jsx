@@ -7,9 +7,9 @@ const CartItem = ({ onContinueShopping }) => {
     const cartItems = useSelector(state => state.cart.items);
     const dispatch = useDispatch();
 
-    const getTotalItems = () => {
-        return cartItems.reduce((total, item) => total + item.quantity, 0);
-    };
+    const parseCost = (costString) => {
+        return parseFloat(costString.replace('$0',''));
+    }
 
     const calculateCartTotal = () => {
         let total = 0;
@@ -47,7 +47,7 @@ const CartItem = ({ onContinueShopping }) => {
                 quantity: item.quantity - 1 
             }));
         } else {
-            dispatch(removeItem(item));
+            dispatch(removeItem(item.name));
         }
     };
 
@@ -55,11 +55,11 @@ const CartItem = ({ onContinueShopping }) => {
         dispatch(removeItem(item.name));
     };
 
-    return (
+    return (    
         <div className="cart-container">
         <h2 style={{ color: 'black' }}>Total Cart Amount: ${calculateCartTotal()}</h2>
         <div>
-            {cart.map(item => (
+            {cartItems.map(item => (
             <div className="cart-item" key={item.name}>
                 <img 
                     className="cart-item-image" 
