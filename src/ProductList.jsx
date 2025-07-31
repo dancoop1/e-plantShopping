@@ -294,38 +294,45 @@ function ProductList({ onHomeClick }) {
                 </div>
             </div>
             {!showCart ? (
-                <div className="product-grid">
-                    {plantsArray.map((category, index) => (
-                        <div key={index}>
-                            <h1>
-                                <div> {category.category} </div>
-                            </h1>
-                        <div className='product-list' style={{ padding: 15}}>
-                            {category.plants.map((plant, plantIndex) => (
-                                <div className='product-card' key={plantIndex}>
-                                    <img 
-                                        className='product-image' 
-                                        src={plant.image} 
-                                        alt={plant.name} 
-                                    />
-                                    <div className='product-name'> {plant.name} </div>
-                                    <div className='product-description'> {plant.description} </div>
-                                    <div className='product-cost'> {plant.cost} </div>
-                                    <button 
-                                        className="product-button" 
-                                        onClick={() => handleAddToCart(plant)}
-                                        > 
-                                        Add to Cart 
-                                    </button>
-                                </div>
-                            ))}                                
-                        </div>
-                        </div>
-                    ))}
+    <div className="product-grid">
+        {plantsArray.map((category, index) => (
+            <div key={index}>
+                <div className='category-container'>
+                    <h1 className='category-heading'>
+                        {category.category}
+                    </h1>
                 </div>
-            ) : (
-                <CartItem onContinueShopping={handleContinueShopping} />
-            )}
+                <div className='product-list' style={{ padding: 15}}>
+                    {category.plants.map((plant, plantIndex) => {
+                        const isInCart = cartItems.some(item => item.name === plant.name);
+                        
+                        return ( // ADDED RETURN STATEMENT HERE
+                            <div className='product-card' key={plantIndex}>
+                                <img 
+                                    className='product-image' 
+                                    src={plant.image} 
+                                    alt={plant.name} 
+                                />
+                                <div className='product-name'> {plant.name} </div>
+                                <div className='product-description'> {plant.description} </div>
+                                <div className='product-cost'> {plant.cost} </div>
+                                <button 
+                                    className={`product-button ${isInCart ? 'added-to-cart' : ''}`} 
+                                    onClick={() => !isInCart && handleAddToCart(plant)}
+                                    disabled={isInCart}
+                                > 
+                                    {isInCart ? 'Added to Cart' : 'Add to Cart'}
+                                </button>
+                            </div>
+                        );
+                    })}                                
+                </div>
+            </div>
+        ))}
+    </div>
+) : (
+    <CartItem onContinueShopping={handleContinueShopping} />
+)}
         </div>
     );
 }
